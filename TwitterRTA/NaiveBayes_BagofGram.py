@@ -42,21 +42,25 @@ dates = np.array(dataframe.iloc[:, 1].values)
 tweets = np.array(dataframe.iloc[:, 2].apply(PreProTweet).values)
 sentiment = np.array(dataframe.iloc[:, 0].values)
 
+print('----load data finish----')
+
 train, test = [], []
 
 ratio = 0.7                       # train test is 70%, test is 30%
 size = 1600000
     
-    
-# with unigrams and bigrams
-vectorizer = CountVectorizer(ngram_range=(1, 2))
 
-model = vectorizer.fit_transform(tweets)
-X = model.toarray()
+# with unigrams and bigrams
+vectorizer = CountVectorizer(ngram_range=(2, 2))
+
+X = vectorizer.fit_transform(tweets)
+#X = model.toarray()
+
+print('----Bag of Gram finish----')
 
 clf = MultinomialNB(alpha=1.0)
 
-scorce = cross_validate(clf, X, sentiment , scoring='accuracy')
+scorce = cross_validate(clf, X, sentiment, cv=5, scoring='accuracy')
 print(scorce)
     
     
