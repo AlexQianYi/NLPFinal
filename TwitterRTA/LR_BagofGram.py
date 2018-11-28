@@ -59,5 +59,5 @@ print('----Bag of Gram finish----')
     
 log = LogisticRegression(penalty='l2')
 
-scorce = cross_validate(log, X, sentiment, cv=5 scoring='accuracy')
+scorce = cross_validate(log, X, sentiment, cv=5, scoring='accuracy')
 print(scorce)
