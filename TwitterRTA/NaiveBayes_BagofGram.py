@@ -10,8 +10,6 @@ Created on Mon Nov 26 16:37:26 2018
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
 
-from sklearn.model_selection import cross_validate
-
 import pandas as pd
 import re
 import numpy as np
@@ -37,31 +35,39 @@ def PreProTweet(tweet):
 dataframe = pd.read_csv('training.1600000.processed.noemoticon.csv', \
                         encoding = "ISO-8859-1", header=None).iloc[:, [0, 2, 5]].sample(frac=1).reset_index(drop=True)
 
+ratio = 0.7                       # train test is 70%, test is 30%
+size = 1600000
 
-dates = np.array(dataframe.iloc[:, 1].values)
-tweets = np.array(dataframe.iloc[:, 2].apply(PreProTweet).values)
-sentiment = np.array(dataframe.iloc[:, 0].values)
+trainDates = np.array(dataframe.iloc[:int(size*ratio), 1].values)
+trainTweets = np.array(dataframe.iloc[:int(size*ratio), 2].apply(PreProTweet).values)
+trainSentiment = np.array(dataframe.iloc[:int(size*ratio), 0].values)
+
+testDates = np.array(dataframe.iloc[int(size*ratio):, 1].values)
+testTweets = np.array(dataframe.iloc[int(size*ratio):, 2].apply(PreProTweet).values)
+testSentiment = np.array(dataframe.iloc[int(size*ratio):, 0].values)
 
 print('----load data finish----')
 
-train, test = [], []
-
-ratio = 0.7                       # train test is 70%, test is 30%
-size = 1600000
-    
-
+# train bag of words
 # with unigrams and bigrams
 vectorizer = CountVectorizer(ngram_range=(2, 2))
 
-X = vectorizer.fit_transform(tweets)
-#X = model.toarray()
-
+Xtrain = vectorizer.fit_transform(trainTweets)
 print('----Bag of Gram finish----')
 
+# train Naive Bayes
 clf = MultinomialNB(alpha=1.0)
+clf.fit(Xtrain, trainSentiment)
 
-scorce = cross_validate(clf, X, sentiment, cv=5, scoring='accuracy')
-print(scorce)
+# test bag of words
+Xtest = vectorizer.transform(testTweets)
+
+# use model to predict
+predict = clf.predict(Xtest)
+
+from sklearn.metrics import classification_report
+
+print(classification_report(testSentiment, predict))
     
     
     
