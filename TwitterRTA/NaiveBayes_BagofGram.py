@@ -64,6 +64,7 @@ clf = MultinomialNB(alpha=1.0)
 clf.fit(Xtrain, trainSentiment)
 
 # save model
+print('save model as "NaiveBayes_BagofWord.m"')
 joblib.dump(clf, "NaiveBayes_BagofWord.m")
 
 # test bag of words
@@ -75,7 +76,7 @@ predict = clf.predict(Xtest)
 from sklearn.metrics import classification_report
 
 print(classification_report(testSentiment, predict))
-print('run time'+str(time.time()-start))
+print('run time '+str(time.time()-start))
     
     
     

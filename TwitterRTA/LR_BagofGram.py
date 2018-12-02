@@ -8,6 +8,10 @@ Created on Tue Nov 27 17:36:32 2018
 
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.linear_model import LogisticRegression
+from sklearn.externals import joblib
+
+import time
+
 
 import pandas as pd
 import re
@@ -30,6 +34,7 @@ def PreProTweet(tweet):
     tweet = re.sub(r'\W*\b\w{1,3}\b', '', tweet)
     return tweet
 
+start = time.time()
 
 dataframe = pd.read_csv('training.1600000.processed.noemoticon.csv', \
                         encoding = "ISO-8859-1", header=None).iloc[:, [0, 2, 5]].sample(frac=1).reset_index(drop=True)
@@ -58,6 +63,10 @@ print('----Bag of Gram finish----')
 log = LogisticRegression(penalty='l2')
 log.fit(Xtrain, trainSentiment)
 
+# save model
+print('save model as "LR_BagofWord.m"')
+joblib.dump(log, "log_BagofWord.m")
+
 # test bag of words
 Xtest = vectorizer.transform(testTweets)
 
@@ -67,3 +76,4 @@ predict = log.predict(Xtest)
 from sklearn.metrics import classification_report
 
 print(classification_report(testSentiment, predict))
+print('run time is ' + str(time.time()-start))
