@@ -72,11 +72,8 @@ nDim = 300
 # initial model and build vocab
 w2vModel = Word2Vec(Tweets, size=nDim, min_count = 10)
 w2vModel.save('Word2Vec.model')     #save model
-print('1')
 
 index_dict, word_vectors = create_dictionary(w2vModel)
-print(len(index_dict), len(word_vectors))
-print('2')
 
 
 from keras.layers.recurrent import LSTM
@@ -123,6 +120,10 @@ def LSTMNetWork(p_n_symbols, p_embedding_weights, p_X_train, p_y_train, p_X_test
     print('---train model---')
     model.fit(p_X_train, p_y_train, batch_size=batch_size,
               nb_epoch=n_epoch, validation_data=(p_X_test, p_y_test))
+    
+    # save model
+    print('save model as "LSTM_Word2Vec.m"')
+    model.save('LSTM_Word2Vec.m')
     
     # evaluate model
     print('---evaluate model---')
