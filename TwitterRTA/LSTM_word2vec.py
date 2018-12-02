@@ -152,15 +152,19 @@ embedding_weights = np.zeros((n_symbols, 300))
 new_dict = index_dict
 for w, index in index_dict.items():
     embedding_weights[index, :] = word_vectors[w]
+    
+Tweets = text_to_index_vector(new_dict, Tweets)
 
 Xtrain, Xtest, ytrain, ytest = train_test_split(Tweets, Sentiment, test_size = 1-ratio)
 
 print(Xtrain[0], Xtest[0])
 print('a')
 
+"""
 # transfer to word vector format
 Xtrain = text_to_index_vector(new_dict, Xtrain)
 Xtext = text_to_index_vector(new_dict, Xtest)
+"""
 
 print(Xtrain[0])
 print(Xtest[0])
@@ -169,7 +173,7 @@ from keras.preprocessing import sequence
 Xtrain = sequence.pad_sequences(Xtrain, maxlen = textLen, value = 0.0)
 Xtest = sequence.pad_sequences(Xtest, maxlen = textLen, value = 0.0)
 
-print(len(Xtrain[0]), len(Xtext[0]))
+print(len(Xtrain[0]), len(Xtest[0]))
 
 """
 LSTMNetWork(n_symbols, embedding_weights, Xtrain, ytrain, Xtest, ytest)
