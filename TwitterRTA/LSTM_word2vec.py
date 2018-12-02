@@ -75,32 +75,15 @@ w2vModel.save('Word2Vec.model')     #save model
 print('1')
 
 index_dict, word_vectors = create_dictionary(w2vModel)
-print(index_dict, word_vectors)
 print(len(index_dict), len(word_vectors))
 print('2')
-
-"""
-
-def buildWordVector(text, size):
-    vec = np.zeros(size).reshape((1, size))
-    count = 0
-
-    for word in text:
-        try:
-            vec += w2vModel[word].reshape((1, size))
-            count += 1
-        except KeyError:
-            continue
-
-    if count != 0:
-        vec /= count
-    return vec
 
 
 from keras.layers.recurrent import LSTM
 from keras.models import Sequential
 from keras.layers.embeddings import Embedding
 from keras.layers.core import Dense, Dropout, Activation
+
 
 # parameter
 vocab_dim = 300
@@ -158,6 +141,7 @@ def text_to_index_vector(dic, text):
             except:
                 temp_s.append(0)
         sentence.append(temp_s)
+    print(sentence[0])
     return np.array(sentence)
     
     
@@ -169,11 +153,24 @@ new_dict = index_dict
 for w, index in index_dict.items():
     embedding_weights[index, :] = word_vectors[w]
 
-Xtrain, Xtest, ytrain, ytest = train_test_split(Tweets, Sentiment, test_size = ratio)
+Xtrain, Xtest, ytrain, ytest = train_test_split(Tweets, Sentiment, test_size = 1-ratio)
+
+print(Xtrain[0], Xtest[0])
+print('a')
 
 # transfer to word vector format
 Xtrain = text_to_index_vector(new_dict, Xtrain)
 Xtext = text_to_index_vector(new_dict, Xtest)
 
+print(Xtrain[0])
+print(Xtest[0])
+from keras.preprocessing import sequence
+
+Xtrain = sequence.pad_sequences(Xtrain, maxlen = textLen, value = 0.0)
+Xtest = sequence.pad_sequences(Xtest, maxlen = textLen, value = 0.0)
+
+print(len(Xtrain[0]), len(Xtext[0]))
+
+"""
 LSTMNetWork(n_symbols, embedding_weights, Xtrain, ytrain, Xtest, ytest)
 """
