@@ -13,6 +13,7 @@ from gensim.models.word2vec import Word2Vec
 import pandas as pd
 import re
 import numpy as np
+import time
 
 def PreProTweet(tweet):
 
@@ -31,6 +32,15 @@ def PreProTweet(tweet):
     tweet = re.sub(r'\W*\b\w{1,3}\b', '', tweet)
     return tweet
 
+def splitText(text):
+    sentences = []
+    for s in text:
+        temp = s.split(' ')
+        sentences.append(temp)
+        
+    return sentences
+
+start = time.time()
 
 dataframe = pd.read_csv('training.1600000.processed.noemoticon.csv', \
                         encoding = "ISO-8859-1", header=None).iloc[:, [0, 2, 5]].sample(frac=1).reset_index(drop=True)
@@ -38,18 +48,19 @@ dataframe = pd.read_csv('training.1600000.processed.noemoticon.csv', \
 ratio = 0.7                       # train test is 70%, test is 30%
 size = 1600000
 
-
-
 Dates = np.array(dataframe.iloc[:, 1].values)
 Tweets = np.array(dataframe.iloc[:, 2].apply(PreProTweet).values)
 Sentiment = np.array(dataframe.iloc[:, 0].values)
 
+Tweets = splitText(Tweets)
+
 Xtrain, Xtest, ytrain, ytest = train_test_split(Tweets, Sentiment, test_size = 1-ratio)
 
+
 # dimension
-nDim = 1000
+nDim = 400
 # initial model and build vocab
-w2vModel = Word2Vec(size=nDim, min_count = 10)
+w2vModel = Word2Vec(size=nDim, min_count = 10, workers=3)
 w2vModel.build_vocab(Xtrain)
 print('1')
 
@@ -99,6 +110,7 @@ print('-----predict fininish----')
 from sklearn.metrics import classification_report
 
 print(classification_report(ytest, predict))
+print(time.time() - start)
 
 
 

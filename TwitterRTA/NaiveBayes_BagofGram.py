@@ -9,10 +9,12 @@ Created on Mon Nov 26 16:37:26 2018
 
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
+from sklearn.externals import joblib
 
 import pandas as pd
 import re
 import numpy as np
+import time
 
 def PreProTweet(tweet):
 
@@ -31,6 +33,8 @@ def PreProTweet(tweet):
     tweet = re.sub(r'\W*\b\w{1,3}\b', '', tweet)
     return tweet
 
+
+start = time.time()
 
 dataframe = pd.read_csv('training.1600000.processed.noemoticon.csv', \
                         encoding = "ISO-8859-1", header=None).iloc[:, [0, 2, 5]].sample(frac=1).reset_index(drop=True)
@@ -59,6 +63,9 @@ print('----Bag of Gram finish----')
 clf = MultinomialNB(alpha=1.0)
 clf.fit(Xtrain, trainSentiment)
 
+# save model
+joblib.dump(clf, "NaiveBayes_BagofWord.m")
+
 # test bag of words
 Xtest = vectorizer.transform(testTweets)
 
@@ -68,6 +75,7 @@ predict = clf.predict(Xtest)
 from sklearn.metrics import classification_report
 
 print(classification_report(testSentiment, predict))
+print('run time'+str(time.time()-start))
     
     
     
