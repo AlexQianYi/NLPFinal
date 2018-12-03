@@ -9,6 +9,7 @@ Created on Sat Dec  1 17:06:11 2018
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from gensim.models.word2vec import Word2Vec
+from sklearn.externals import joblib
 
 import pandas as pd
 import re
@@ -102,6 +103,10 @@ print('-----test Word2Vec fininish----')
 log = LogisticRegression(penalty='l2')
 log.fit(trainVec, ytrain)
 print('-----train LR model fininish----')
+
+# save model
+print('save model as "log_Word2Vec.m"')
+joblib.dump(log, "log_Word2Vec.m")
 
 # use model to predict
 predict = log.predict(testVec)

@@ -86,7 +86,7 @@ from keras.layers.core import Dense, Dropout, Activation
 vocab_dim = 300
 textLen = 140
 batch_size = 32
-n_epoch = 5
+n_epoch = 3
 input_length = 140
 
 def LSTMNetWork(p_n_symbols, p_embedding_weights, p_X_train, p_y_train, p_X_test, p_y_test):
@@ -158,11 +158,6 @@ Tweets = text_to_index_vector(new_dict, Tweets)
 
 Xtrain, Xtest, ytrain, ytest = train_test_split(Tweets, Sentiment, test_size = 1-ratio)
 
-print(Xtrain[0], Xtest[0])
-print('a')
-
-print(Xtrain[0])
-print(Xtest[0])
 from keras.preprocessing import sequence
 
 # padding train set and test set
