@@ -149,7 +149,7 @@ def text_to_index_vector(dic, text):
 n_symbols = len(index_dict)+1
 # use model to predict
 # inital weights
-embedding_weights = np.zeros((n_symbols, 300))
+embedding_weights = np.zeros((n_symbols, 100))
 new_dict = index_dict
 for w, index in index_dict.items():
     embedding_weights[index, :] = word_vectors[w]
