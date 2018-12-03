@@ -67,7 +67,7 @@ Tweets = splitText(Tweets)
 #Xtrain, Xtest, ytrain, ytest = train_test_split(Tweets, Sentiment, test_size = 1-ratio)
 
 # dimension
-nDim = 300
+nDim = 100
 
 # initial model and build vocab
 w2vModel = Word2Vec(Tweets, size=nDim, min_count = 10)
