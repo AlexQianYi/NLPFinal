@@ -70,7 +70,7 @@ Tweets = splitText(Tweets)
 nDim = 100
 
 # initial model and build vocab
-w2vModel = Word2Vec(Tweets, size=nDim, min_count = 10)
+w2vModel = Word2Vec(Tweets, size=nDim, min_count = 5, window=5)
 w2vModel.save('Word2Vec.model')     #save model
 
 index_dict, word_vectors = create_dictionary(w2vModel)
@@ -142,7 +142,6 @@ def text_to_index_vector(dic, text):
             except:
                 temp_s.append(0)
         sentence.append(temp_s)
-    print(sentence[0])
     return np.array(sentence)
     
     
@@ -161,9 +160,8 @@ Xtrain, Xtest, ytrain, ytest = train_test_split(Tweets, Sentiment, test_size = 1
 from keras.preprocessing import sequence
 
 # padding train set and test set
-Xtrain = sequence.pad_sequences(Xtrain, maxlen = textLen, value = 0.0)
-Xtest = sequence.pad_sequences(Xtest, maxlen = textLen, value = 0.0)
+Xtrain = sequence.pad_sequences(Xtrain, maxlen = textLen)
+Xtest = sequence.pad_sequences(Xtest, maxlen = textLen)
 
-print(len(Xtrain[0]), len(Xtest[0]))
 
 LSTMNetWork(n_symbols, embedding_weights, Xtrain, ytrain, Xtest, ytest)
