@@ -83,7 +83,7 @@ from keras.layers.core import Dense, Dropout, Activation
 
 
 # parameter
-vocab_dim = 300
+vocab_dim = 100
 textLen = 140
 batch_size = 32
 n_epoch = 3
