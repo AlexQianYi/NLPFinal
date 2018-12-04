@@ -59,6 +59,11 @@ vectorizer = CountVectorizer(ngram_range=(2, 2))
 
 Xtrain = vectorizer.fit_transform(trainTweets)
 print('----Bag of Gram finish----')
+# save bag of gram
+print('save model as "BagofGram.pkl"')
+output = open("BagofGram.pkl", "wb")
+pickle.dump(vectorizer, output)
+
 
 # train Naive Bayes
 clf = MultinomialNB(alpha=1.0)

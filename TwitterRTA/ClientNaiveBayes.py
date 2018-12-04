@@ -22,7 +22,9 @@ import threading
 import time
 
 f = open("NaiveBayes_BagofWord.pkl", 'rb')
-model = pickle.load(f)            
+model = pickle.load(f) 
+f1 = open("BagofGram.pkl", 'rb')
+vectorizer = pickle.load(f1)      
 
 class TimeCount(threading.Thread):
 
@@ -38,12 +40,20 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
     
     def handle(self):
         
+        start = time.time()
         self.data=self.request.recv(1024).decode()
         self.data=self.data.split("\n")
         print(self.data)
+        realTimeTweet = vectorizer.transform(self.data)
+        result = model.predict(realTimeTweet)
+        print(result)
+        print('Use time to predict: ' + str(time.time()-start))
+        if result == [4]:
+            message = 'positive'
+        if result == [0]:
+            message = 'negative or neutral'
         
-        
-        self.request.sendall(('message').encode())
+        self.request.sendall(message.encode())
 
 
 if __name__ == "__main__":
