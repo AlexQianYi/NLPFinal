@@ -8,7 +8,8 @@ Created on Tue Nov 27 17:36:32 2018
 
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.linear_model import LogisticRegression
-from sklearn.externals import joblib
+
+import pickle
 
 import time
 
@@ -64,8 +65,9 @@ log = LogisticRegression(penalty='l2')
 log.fit(Xtrain, trainSentiment)
 
 # save model
-print('save model as "LR_BagofWord.m"')
-joblib.dump(log, "log_BagofWord.m")
+print('save model as "LR_BagofWord.pkl"')
+output = open("LR_BagofWord.pkl", "wb")
+pickle.dump(log, output)
 
 # test bag of words
 Xtest = vectorizer.transform(testTweets)

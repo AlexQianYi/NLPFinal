@@ -27,7 +27,7 @@ class TimeCount(threading.Thread):
             time.sleep(10)
             self.count += 10
 
-
+"""
 class MyTCPHandler(socketserver.BaseRequestHandler):      
     
     def handle(self):
@@ -43,7 +43,6 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
         message = keyWord
         self.request.sendall(message.encode())
 
-        """
         while flag:
             
             Tweets = SearchTwitter(keyWord)
@@ -59,6 +58,19 @@ if __name__ == "__main__":
     protocol = 'TCP'
     host = 'localhost'
     portTCP = 5555
+    
+    addrTCP = (host, portTCP)
+    
+    client = socket.socket()
+    client.connect(addrTCP)
+    count = 4
+    while count>0:
+        tweet = input()
+        
+        client.send((tweet).encode())
+        message=client.recv(1024).decode()
+        print("message")
+        count -= 1
     
 
     dic_para = {'size':'5', 'protocol':'TCP'}
@@ -85,18 +97,6 @@ if __name__ == "__main__":
     count_thread = TimeCount()
     count_thread.start()
     
-    """
-    TCP server thread
-    """
-    server = ThreadingTCPServer((host, portTCP), MyTCPHandler)
-    server_thread = threading.Thread(target = server.serve_forever)
-    server_thread.start()        
-    
-    messageTCP = "------------------TCP Start---------------------\n\
-    | host:            " + host + "\n\
-    | TCP port:        " + str(portTCP) + "\n"
-    
-    print(messageTCP)
 
         
     

@@ -14,17 +14,15 @@ Created on Tue Sep 11 13:23:43 2018
 @author: kailinghuang
 """
 
-import socket
-import sys
-import joblib
 import socketserver
+import pickle
 
 from socketserver import ThreadingTCPServer
 import threading
 import time
 
-
-model = joblib.load("NaiveBayes_BagofWord.pkl")            
+f = open("NaiveBayes_BagofWord.pkl", 'rb')
+model = pickle.load(f)            
 
 class TimeCount(threading.Thread):
 
@@ -45,7 +43,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
         print(self.data)
         
         
-        self.request.sendall(('get message'.encode()))
+        self.request.sendall(('message').encode())
 
 
 if __name__ == "__main__":
@@ -62,24 +60,18 @@ if __name__ == "__main__":
     host = 'localhost'
     portTCP = 5555
     
-
-    dic_para = {'size':'5', 'protocol':'TCP'}
     
                 
     helpmessage1= "------------Parameter List---------------"
     para_size   = "| size:(int)  # the size of DB"
     para_host   = "| host:(str)  # the host of server"
     para_portTCP= "| TCPport:(int)  # port of TCP server"
-    para_portUDP= "| UDPport:(int)  # port of UDP server"
-    para_evi    = "| eviction:(str)[FIFO, Random, LRU] # the eviction policy"
     helpmessage2= "========================================="        
     
     print(helpmessage1)
     print(para_size)
     print(para_host)
     print(para_portTCP)
-    print(para_portUDP)
-    print(para_evi)
     print(helpmessage2)        
     
     """

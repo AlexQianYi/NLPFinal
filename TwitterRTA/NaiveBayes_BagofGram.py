@@ -65,8 +65,9 @@ clf = MultinomialNB(alpha=1.0)
 clf.fit(Xtrain, trainSentiment)
 
 # save model
-print('save model as "NaiveBayes_BagofWord.m"')
-joblib.dump(clf, "NaiveBayes_BagofWord.pkl")
+print('save model as "NaiveBayes_BagofWord.pkl"')
+output = open("NaiveBayes_BagofWord.pkl", "wb")
+pickle.dump(clf, output)
 
 # test bag of words
 Xtest = vectorizer.transform(testTweets)
