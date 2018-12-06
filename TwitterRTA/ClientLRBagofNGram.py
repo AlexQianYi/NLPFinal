@@ -29,7 +29,7 @@ class TimeCount(threading.Thread):
             time.sleep(10)
             self.count += 10
 
-class MyTCPHandler(socketserver.BaseRequestHandler):      
+class MyTCPHandler(SocketServer.BaseRequestHandler):      
     
     def handle(self):
         
