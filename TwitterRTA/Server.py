@@ -6,11 +6,9 @@ Created on Mon Dec  3 11:53:49 2018
 @author: yiqian
 """
 
-import socketserver
 import socket
 import re
 
-from socketserver import ThreadingTCPServer
 import threading
 import time
 
