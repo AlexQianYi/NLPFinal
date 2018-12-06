@@ -1,3 +1,4 @@
+
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
@@ -13,7 +14,7 @@ from socketserver import ThreadingTCPServer
 import threading
 import time
 
-f = open("NaiveBayes_BagofWord.pkl", 'rb')
+f = open("LR_BagofWord.pkl", 'rb')
 model = pickle.load(f) 
 f1 = open("BagofGram.pkl", 'rb')
 vectorizer = pickle.load(f1)      
@@ -59,7 +60,7 @@ if __name__ == "__main__":
     """
     
     protocol = 'TCP'
-    host = 'localhost'
+    host = '18.212.230.169'
     portTCP = 5555
     
     

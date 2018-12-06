@@ -55,7 +55,7 @@ print('----load data finish----')
 
 # train bag of words
 # with unigrams and bigrams
-vectorizer = CountVectorizer(ngram_range=(2, 2))
+vectorizer = CountVectorizer(ngram_range=(1, 3))
 
 Xtrain = vectorizer.fit_transform(trainTweets)
 print('----Bag of Gram finish----')

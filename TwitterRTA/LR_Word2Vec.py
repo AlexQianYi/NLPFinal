@@ -59,15 +59,13 @@ Xtrain, Xtest, ytrain, ytest = train_test_split(Tweets, Sentiment, test_size = 1
 
 
 # dimension
-nDim = 400
+nDim = 100
 # initial model and build vocab
-w2vModel = Word2Vec(size=nDim, min_count = 10, workers=3)
+w2vModel = Word2Vec(size=nDim, min_count = 5, window = 5, workers=3)
 w2vModel.build_vocab(Xtrain)
-print('1')
 
 # train model
 w2vModel.train(Xtrain, epochs=w2vModel.iter, total_examples=w2vModel.corpus_count)
-print('2')
 
 
 def buildWordVector(text, size):

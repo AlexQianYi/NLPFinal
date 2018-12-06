@@ -13,6 +13,7 @@ import pandas as pd
 import re
 import numpy as np
 
+
 def PreProTweet(tweet):
     
     #Preprocess the text in a single tweet
@@ -70,7 +71,7 @@ Tweets = splitText(Tweets)
 nDim = 100
 
 # initial model and build vocab
-w2vModel = Word2Vec(Tweets, size=nDim, min_count = 5, window=5)
+w2vModel = Word2Vec(Tweets, size=nDim, min_count = 5, window = 5, workers = 3)
 w2vModel.save('Word2Vec.model')     #save model
 
 index_dict, word_vectors = create_dictionary(w2vModel)
@@ -106,7 +107,7 @@ def LSTMNetWork(p_n_symbols, p_embedding_weights, p_X_train, p_y_train, p_X_test
                    inner_activation='hard_sigmoid'))
     
     # dropout
-    model.add(Dropout(0,5))
+    model.add(Dropout(0.5))
     model.add(Dense(1))
     model.add(Activation('sigmoid'))
     

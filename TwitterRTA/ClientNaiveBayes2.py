@@ -1,6 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
+Created on Thu Dec  6 09:23:01 2018
+
+@author: yiqian
+"""
+
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
 Created on Mon Dec  3 19:31:26 2018
 
 @author: yiqian
@@ -59,7 +67,7 @@ if __name__ == "__main__":
     """
     
     protocol = 'TCP'
-    host = 'localhost'
+    host = '18.212.230.169'
     portTCP = 5555
     
     
