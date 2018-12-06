@@ -7,10 +7,10 @@ Created on Mon Dec  3 19:31:26 2018
 @author: yiqian
 """
 
-import socketserver
+import SocketServer
 import pickle
 
-from socketserver import ThreadingTCPServer
+from SocketServer import TCPServer
 import threading
 import time
 
@@ -87,7 +87,7 @@ if __name__ == "__main__":
     """
     TCP server thread
     """
-    server = ThreadingTCPServer((host, portTCP), MyTCPHandler)
+    server = TCPServer((host, portTCP), MyTCPHandler)
     server_thread = threading.Thread(target = server.serve_forever)
     server_thread.start()        
     

@@ -16,7 +16,16 @@ import time
 
 from GetTweetAPI import getTweet
 
-
+class SendTweet(threading.Thread):
+    
+    def __init__(self):
+        threading.Thread.__init__(self)
+    
+    def run(self, Tweet, client):
+        client.send((Tweet).encode())
+        message=client.recv(1024).decode()
+        return message
+    
         
 class TimeCount(threading.Thread):
 
@@ -48,8 +57,16 @@ def PreProTweet(tweet):
 if __name__ == "__main__":
     
     protocol = 'TCP'
-    host = 'localhost'
-    portTCP = 5555
+    
+    NaiveLocalHost = 'localhost'
+    #NaiveRemoteHost = ''
+    #LRLocalHost = ''
+    NaiveLocalPort = 5555
+    #NaiveRemotePort = 5556
+    #LRLocalPort = 5557
+    addrNaiveLocalTCP = (NaiveLocalHost, NaiveLocalPort)
+    #addrNaiveRemoteTCP = (NaiveRemoteHost, NaiveRemotePort)
+    #addrLRLocalTCP = (LRLocalHost, LRLocalPort)
     
     
     helpmessage1= "------------Parameter List---------------"
@@ -62,6 +79,15 @@ if __name__ == "__main__":
     print(para_portTCP)
     print(helpmessage2)        
     
+    
+
+    #clientNaiveRemote = socket.socket() #Local
+    #clientNaiveRemote.connect(addrNaiveRemoteTCP)
+    #clientLRLocal = socket.socket() #AWS
+    #clientLRLocal.connect(addrLRLocalTCP)
+    
+    
+    NaiveLocalThread = SendTweet()
     """
     Time count thread
     """
@@ -82,15 +108,16 @@ if __name__ == "__main__":
             else:
                 print(Tweets)
                 preTweet = Tweets
-                addrTCP = (host, portTCP)
-                
-                client = socket.socket()
-                client.connect(addrTCP)
-                
                 Tweet = PreProTweet(Tweets[0])
-                client.send((Tweet).encode())
-                message=client.recv(1024).decode()
-                print(message)
+                
+                clientNaiveLocal = socket.socket() #AWS
+                clientNaiveLocal.connect(addrNaiveLocalTCP)
+                clientNaiveLocal.send(Tweet.encode())
+                result1=clientNaiveLocal.recv(1024).decode()
+                
+                print(result1)
+                
+                
                 time.sleep(5)
         else:
             print('no new Tweet..................')
