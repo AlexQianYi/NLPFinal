@@ -59,6 +59,10 @@ vectorizer = CountVectorizer(ngram_range=(1, 3))
 
 Xtrain = vectorizer.fit_transform(trainTweets)
 print('----Bag of Gram finish----')
+# save bag of gram
+print('save model as "BagofGram.pkl"')
+output = open("BagofGram.pkl", "wb")
+pickle.dump(vectorizer, output)
 
 # train Logic Regression
 log = LogisticRegression(penalty='l2')
