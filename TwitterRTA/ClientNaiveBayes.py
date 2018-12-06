@@ -59,7 +59,7 @@ if __name__ == "__main__":
     """
     
     protocol = 'TCP'
-    host = 'localhost'
+    host = '100.27.25.142'
     portTCP = 5555
     
     
